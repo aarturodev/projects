@@ -1,0 +1,52 @@
+<div class="container">
+  <h1>Aplicación de Tickets</h1>
+
+  <section class="card">
+    <h2>Crear Ticket</h2>
+    <form [formGroup]="form" (ngSubmit)="createTicket()">
+      <label>Título</label>
+      <input type="text" formControlName="title">
+
+      <label>Descripción</label>
+      <input type="text" formControlName="description">
+
+      <button type="submit" [disabled]="form.invalid">Crear</button>
+    </form>
+  </section>
+
+  <section class="card">
+    <h2>Listado de Tickets</h2>
+
+    <table class="tickets-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Título</th>
+          <th>Descripción</th>
+          <th>Estado</th>
+          <th>Cambiar Estado</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for(ticket of tickets; track ticket.id){
+        <tr>
+          <td>{{ ticket.id }}</td>
+          <td>{{ ticket.title }}</td>
+          <td>{{ ticket.description }}</td>
+          <td>
+            <span class="status" [class]="ticket.status">{{ ticket.status }}</span>
+          </td>
+          <td>
+            <select [(ngModel)]="ticket.status" (ngModelChange)="onStatusChange(ticket.id, $event)">
+              @for(status of statusList; track $index){
+              <option [value]="status">{{ status }}</option>
+              }
+            </select>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </section>
+</div>
